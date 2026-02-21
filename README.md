@@ -5,11 +5,29 @@ A minimal CLI tool for taking and searching personal notes, powered by SQLite.
 ## Install
 
 ```bash
-# Clone / enter the project directory, then:
+git clone https://github.com/simonefilosofi/brain.git
+cd brain
 pip install -e .
 ```
 
-This registers the `brain` command globally in your Python environment.
+After installing, make sure pip's script directory is on your `$PATH`.
+If `brain` is not found after install, run:
+
+```bash
+python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))"
+```
+
+Add the printed path to your shell config (`~/.zshrc`, `~/.bashrc`, etc.):
+
+```bash
+export PATH="/path/from/above:$PATH"
+```
+
+Then reload it:
+
+```bash
+source ~/.zshrc   # or ~/.bashrc
+```
 
 ## Usage
 
@@ -28,7 +46,10 @@ brain find "pragmatic"
 
 Notes are stored in `~/.brain/brain.db` (SQLite). The directory is created automatically on first use.
 
-## Dependencies
+## Requirements
 
+- Python 3.10+
 - [typer](https://typer.tiangolo.com/) – CLI framework
 - [rich](https://rich.readthedocs.io/) – terminal formatting
+
+Dependencies are installed automatically by `pip install -e .`
