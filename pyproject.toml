@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "brain"
+version = "0.1.0"
+description = "A simple CLI tool for taking and searching personal notes."
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.12",
+    "rich>=13",
+]
+
+[project.scripts]
+brain = "main:app"
+
+[tool.setuptools]
+py-modules = ["main"]
