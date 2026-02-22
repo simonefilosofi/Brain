@@ -90,6 +90,21 @@ def find(keyword: str = typer.Argument(..., help="Keyword to search for (case-in
         ).fetchall()
     _render_table(rows, f'Search results for "{keyword}"')
 
+@app.command()
+def edit(note_id: int = typer.Argument(..., help="ID of the note to edit."),
+    new_content: str = typer.Argument(..., help="New content for the note."),
+):
+    """Edit the content of an existing note."""
+    with get_connection() as conn:
+        row = conn.execute("SELECT id, content FROM notes WHERE id = ?", (note_id,)).fetchone()
+        if not row:
+            console.print(f"[red]✗[/red] No note found with ID [cyan]#{note_id}[/cyan].")
+            raise typer.Exit(code=1)
+        conn.execute("UPDATE notes SET content = ? WHERE id = ?", (new_content, note_id))
+    console.print(f"[bold green]✓[/bold green] Note [cyan]#{note_id}[/cyan] updated.")
+    console.print(f"  [dim]Before:[/dim] {row[1]}")
+    console.print(f"  [dim]After: [/dim] {new_content}")
+
 
 @app.command()
 def check(note_id: int = typer.Argument(..., help="ID of the note to mark as done.")):
