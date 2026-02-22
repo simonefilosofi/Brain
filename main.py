@@ -73,6 +73,24 @@ def list_notes():
 
 
 @app.command()
+def delete(note_id: int = typer.Argument(..., help="ID of the note to delete.")):
+    """Delete a note by its ID."""
+    with get_connection() as conn:
+        row = conn.execute("SELECT id, content FROM notes WHERE id = ?", (note_id,)).fetchone()
+        if not row:
+            console.print(f"[red]✗[/red] No note found with ID [cyan]#{note_id}[/cyan].")
+            raise typer.Exit(code=1)
+        console.print(f"[dim]Deleting:[/dim] {row[1]}")
+        confirmed = typer.confirm("Are you sure?")
+        if not confirmed:
+            console.print("[dim]Aborted.[/dim]")
+            raise typer.Exit()
+        conn.execute("DELETE FROM notes WHERE id = ?", (note_id,))
+    console.print(f"[bold red]✓[/bold red] Note [cyan]#{note_id}[/cyan] deleted.")
+
+
+
+@app.command()
 def find(keyword: str = typer.Argument(..., help="Keyword to search for (case-insensitive).")):
     """Search notes by keyword."""
     with get_connection() as conn:
