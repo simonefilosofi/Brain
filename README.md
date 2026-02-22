@@ -42,6 +42,9 @@ brain list
 # Pretend you remember what you wrote
 brain find "pragmatic"
 
+# Fix the typo in my self-improvement plans... the book is still unread
+brain edit 3 "Read the pragmatic programmer (2nd edition)"
+
 # Feel accomplished without actually doing anything
 brain check 3
 
