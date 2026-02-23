@@ -153,5 +153,14 @@ def delete(note_id: int = typer.Argument(..., help="ID of the note to delete."))
     console.print(f"[bold red]✓[/bold red] Note [cyan]#{note_id}[/cyan] deleted.")
 
 
+@app.command()
+def brain():
+    """Display the brain image."""
+    import subprocess
+    import os
+
+    script_path = os.path.join(os.path.dirname(__file__), "brain_image.py")
+    subprocess.run(["python3", script_path])
+
 if __name__ == "__main__":
     app()
