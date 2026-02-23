@@ -53,6 +53,9 @@ brain uncheck 3
 
 # Commit to the bit
 brain delete 3
+
+# If you want to see something cool
+brain brain
 ```
 
 ## Notes storage
