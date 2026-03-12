@@ -1,7 +1,6 @@
 import sqlite3
 from datetime import datetime
 from pathlib import Path
-
 import typer
 from rich.console import Console
 from rich.table import Table
@@ -71,13 +70,23 @@ def add(note: str = typer.Argument(..., help="The note text to save.")):
 
 
 @app.command("list")
-def list_notes():
-    """Show all notes, most recent first."""
+def list_notes(
+    done: bool = typer.Option(None, "--done/--todo", help="Filter by status."),
+):
+    """Show all notes, most recent first. Filter with --done or --todo."""
     with get_connection() as conn:
-        rows = conn.execute(
-            "SELECT id, content, created_at, done FROM notes ORDER BY done ASC, id DESC"
-        ).fetchall()
-    _render_table(rows, "All Notes")
+        if done is None:
+            rows = conn.execute(
+                "SELECT id, content, created_at, done FROM notes ORDER BY done ASC, id DESC"
+            ).fetchall()
+            title = "All Notes"
+        else:
+            rows = conn.execute(
+                "SELECT id, content, created_at, done FROM notes WHERE done = ? ORDER BY id DESC",
+                (1 if done else 0,),
+            ).fetchall()
+            title = "Completed Notes" if done else "Pending Notes"
+    _render_table(rows, title)
 
 
 @app.command()
