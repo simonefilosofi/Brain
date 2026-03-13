@@ -39,6 +39,12 @@ brain add "Read the pragmatic programmer"
 # Stare at everything you said you'd do
 brain list
 
+# The list of things you still have to do
+brain list --todo
+
+# The list of tasks you think you have accomplished
+brain list --done
+
 # Pretend you remember what you wrote
 brain find "pragmatic"
 
